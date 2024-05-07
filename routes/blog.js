@@ -15,6 +15,7 @@ router.get("/",async(req,res)=>{
     }
 })
 
+//post a blog
 router.post("/",verifyToken,async(req,res)=>{
     const blog = new BlogModel({
         _id:new mongoose.Types.ObjectId(),
@@ -72,15 +73,15 @@ router.get("/myblog/:userId",async(req,res)=>{
 
 
 
-//serach blog by category
-router.get("category/:category",async(req,res)=>{
-    try{
-        const result = await BlogModel.find({category:req.params.category});
-        res.status(200).json(result);
-    }catch(err){
-         res.status(500).json(err);
-    }
-});
+// //serach blog by category
+// router.get("category/:category",async(req,res)=>{
+//     try{
+//         const result = await BlogModel.find({category:req.params.category});
+//         res.status(200).json(result);
+//     }catch(err){
+//          res.status(500).json(err);
+//     }
+// });
 
 
 //edit a blog only by owner
