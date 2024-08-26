@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import { BlogModel } from "../model/Blog.js";
+import { BestblogsModel } from "../model/Bestblog.js";
 import { UserModel } from "../model/Users.js";
 import { verifyToken } from "./user.js";
 //  start
@@ -14,6 +15,50 @@ router.get("/",async(req,res)=>{
          res.status(500).json(err);
     }
 })
+router.get("/best",async(req,res)=>{
+    try{
+        const result = await BestblogsModel.find({});
+        res.status(200).json(result);
+    }catch(err){
+         res.status(500).json(err);
+    }
+})
+
+
+router.post("/best",async(req,res)=>{
+    const blog = new BestblogsModel({
+        _id:new mongoose.Types.ObjectId(),
+        tittle:req.body.tittle,
+        image:req.body.image,
+        desc:req.body.desc,
+        date:req.body.date,
+        author:req.body.author,
+        category:req.body.category,
+        userOwner: req.body.userOwner,
+    });
+    console.log(blog);
+    try{
+        const result = await blog.save();
+        res.status(201).json({
+            createdBlog:{
+                tittle:result.tittle,
+                image:result.image,
+                desc:result.desc,
+                author:result.author,
+                category:result.category,
+                _id:result._id,
+            },
+    });
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+
+
+
+
 
 //post a blog
 router.post("/",verifyToken,async(req,res)=>{
@@ -57,6 +102,16 @@ router.get("/:id",async(req,res)=>{
          res.status(500).json(err);
     }
 });
+router.get("/best/:id",async(req,res)=>{
+    try{
+        // const user = await UserModel.findById(req.params.userId);
+        const blog = await BestblogsModel.findById(req.params.id);
+        res.status(201).json(blog);
+    }catch(err){
+        console.log(err);
+         res.status(500).json(err);
+    }
+});
 
 
 
@@ -64,6 +119,15 @@ router.get("/:id",async(req,res)=>{
 router.get("/myblog/:userId",async(req,res)=>{
     try{
         const myBlog = await BlogModel.find({userOwner:req.params.userId});
+        res.status(201).json(myBlog);
+    }catch(err){
+        console.log(err);
+         res.status(500).json(err);
+    }
+});
+router.get("/best/myblog/:userId",async(req,res)=>{
+    try{
+        const myBlog = await BestblogsModel.find({userOwner:req.params.userId});
         res.status(201).json(myBlog);
     }catch(err){
         console.log(err);

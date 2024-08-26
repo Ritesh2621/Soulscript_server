@@ -16,10 +16,7 @@ app.use("/blogs",BlogRouter);
 
 
 //mongoDB connection
-mongoose.connect("mongodb://localhost:27017/blog", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true, 
-  }).then(()=>{
+mongoose.connect("mongodb+srv://riteshsuryawanshi2621:Soulscript123@cluster0.0xwt8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
     console.log("MongoDB connected");
 }).catch((e)=>{
     console.log(e);
