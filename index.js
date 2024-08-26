@@ -2,6 +2,10 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 
 const app = express();
 import {UserRouter} from "./routes/user.js";
@@ -16,7 +20,7 @@ app.use("/blogs",BlogRouter);
 
 
 //mongoDB connection
-mongoose.connect("mongodb+srv://riteshsuryawanshi2621:Soulscript123@cluster0.0xwt8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
+mongoose.connect(process.env.Mongo_url).then(()=>{
     console.log("MongoDB connected");
 }).catch((e)=>{
     console.log(e);
